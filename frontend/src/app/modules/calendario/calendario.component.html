@@ -1,0 +1,51 @@
+<div class="calendario-page">
+  <h1>Calendario de Disponibilidad</h1>
+
+  <div class="controles">
+    <mat-form-field appearance="outline">
+      <mat-label>Médico</mat-label>
+      <mat-select [(ngModel)]="medicoSeleccionado" (ngModelChange)="cargarCalendario()">
+        <mat-option *ngFor="let m of medicos" [value]="m.id">{{ m.nombre }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Fecha</mat-label>
+      <input matInput [matDatepicker]="picker" [value]="fechaSeleccionada" (dateChange)="onFechaChange($event)" readonly>
+      <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+  </div>
+
+  <mat-card class="calendario-card">
+    <mat-card-header>
+      <mat-card-title>{{ fechaSeleccionada }}</mat-card-title>
+      <mat-card-subtitle>
+        <span class="leyenda disponible">● Disponible</span>
+        <span class="leyenda ocupado">● Ocupado</span>
+      </mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <div *ngIf="loading" class="loading-center">
+        <mat-spinner diameter="40"></mat-spinner>
+      </div>
+
+      <div *ngIf="!loading" class="slots-grid">
+        <div *ngFor="let slot of slots"
+             class="slot"
+             [class.disponible]="slot.disponible"
+             [class.ocupado]="!slot.disponible">
+          <div class="hora">{{ slot.hora }}</div>
+          <div *ngIf="slot.cita" class="paciente">
+            <mat-icon>person</mat-icon>
+            {{ slot.cita.paciente }}
+            <mat-chip [color]="slot.cita.estado === 'Confirmada' ? 'primary' : 'accent'" selected>
+              {{ slot.cita.estado }}
+            </mat-chip>
+          </div>
+          <div *ngIf="slot.disponible" class="libre">Libre</div>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

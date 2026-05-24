@@ -1,0 +1,37 @@
+<h2 mat-dialog-title>{{ data ? 'Editar Médico' : 'Nuevo Médico' }}</h2>
+
+<mat-dialog-content [formGroup]="form">
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Nombre completo</mat-label>
+    <input matInput formControlName="nombre" required>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Especialidad</mat-label>
+    <mat-select formControlName="especialidad" required>
+      <mat-option *ngFor="let e of especialidades" [value]="e">{{ e }}</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Email</mat-label>
+    <input matInput formControlName="email" type="email">
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Teléfono</mat-label>
+    <input matInput formControlName="telefono">
+  </mat-form-field>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="cancelar()">Cancelar</button>
+  <button mat-raised-button color="primary" (click)="guardar()" [disabled]="form.invalid">
+    Guardar
+  </button>
+</mat-dialog-actions>
+
+<style>
+.full-width { width: 100%; margin-bottom: 8px; }
+mat-dialog-content { display: flex; flex-direction: column; min-width: 400px; }
+</style>

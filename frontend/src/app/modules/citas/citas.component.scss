@@ -1,0 +1,35 @@
+.citas-page {
+  .page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+    h1 { font-size: 28px; color: #1a237e; margin: 0; }
+  }
+
+  .filtros-card {
+    margin-bottom: 16px;
+    .filtros-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+      mat-form-field { min-width: 180px; }
+    }
+  }
+
+  .full-width { width: 100%; }
+
+  .loading-center {
+    display: flex;
+    justify-content: center;
+    padding: 24px;
+  }
+
+  .empty-state {
+    text-align: center;
+    padding: 48px;
+    color: #999;
+    mat-icon { font-size: 64px; width: 64px; height: 64px; }
+  }
+}

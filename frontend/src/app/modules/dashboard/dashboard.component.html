@@ -1,0 +1,58 @@
+<div class="dashboard">
+  <h1 class="page-title">Panel Principal</h1>
+
+  <div class="stats-grid">
+    <mat-card class="stat-card">
+      <mat-card-content>
+        <mat-icon class="stat-icon week">date_range</mat-icon>
+        <div class="stat-info">
+          <span class="stat-value">{{ resumen.citasSemana }}</span>
+          <span class="stat-label">Citas esta semana</span>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="stat-card">
+      <mat-card-content>
+        <mat-icon class="stat-icon month">calendar_month</mat-icon>
+        <div class="stat-info">
+          <span class="stat-value">{{ resumen.citasMes }}</span>
+          <span class="stat-label">Citas este mes</span>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="stat-card">
+      <mat-card-content>
+        <mat-icon class="stat-icon next">upcoming</mat-icon>
+        <div class="stat-info">
+          <span class="stat-value">{{ resumen.proximasCitas }}</span>
+          <span class="stat-label">Próximas citas</span>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <mat-card class="upcoming-card">
+    <mat-card-header>
+      <mat-card-title>Próximas Citas Confirmadas</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <div *ngIf="loading" class="loading-center">
+        <mat-spinner diameter="40"></mat-spinner>
+      </div>
+      <div *ngIf="!loading && proximasCitas.length === 0" class="empty-state">
+        <mat-icon>event_busy</mat-icon>
+        <p>No hay citas próximas</p>
+      </div>
+      <div *ngFor="let cita of proximasCitas" class="cita-item">
+        <div class="cita-hora">{{ cita.hora }}</div>
+        <div class="cita-info">
+          <strong>{{ cita.paciente }}</strong>
+          <span>{{ cita.medico?.nombre }} — {{ cita.medico?.especialidad }}</span>
+        </div>
+        <mat-chip color="primary" selected>{{ cita.fecha }}</mat-chip>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

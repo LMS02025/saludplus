@@ -1,0 +1,115 @@
+<div class="citas-page">
+  <div class="page-header">
+    <h1>Historial de Citas</h1>
+    <button mat-raised-button color="primary" (click)="abrirFormulario()">
+      <mat-icon>add</mat-icon> Nueva Cita
+    </button>
+  </div>
+
+  <!-- Filtros -->
+  <mat-card class="filtros-card">
+    <mat-card-content>
+      <div class="filtros-row">
+        <mat-form-field appearance="outline">
+          <mat-label>Buscar paciente o médico</mat-label>
+          <input matInput [(ngModel)]="busqueda" (ngModelChange)="cargarCitas()">
+          <mat-icon matSuffix>search</mat-icon>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Estado</mat-label>
+          <mat-select [(ngModel)]="filtroEstado" (ngModelChange)="cargarCitas()">
+            <mat-option value="">Todos</mat-option>
+            <mat-option *ngFor="let e of estados" [value]="e">{{ e }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Médico</mat-label>
+          <mat-select [(ngModel)]="filtroMedico" (ngModelChange)="cargarCitas()">
+            <mat-option [value]="undefined">Todos</mat-option>
+            <mat-option *ngFor="let m of medicos" [value]="m.id">{{ m.nombre }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Especialidad</mat-label>
+          <mat-select [(ngModel)]="filtroEspecialidad" (ngModelChange)="cargarCitas()">
+            <mat-option value="">Todas</mat-option>
+            <mat-option *ngFor="let e of especialidades" [value]="e">{{ e }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <button mat-stroked-button (click)="limpiarFiltros()">
+          <mat-icon>clear</mat-icon> Limpiar
+        </button>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <!-- Tabla -->
+  <mat-card>
+    <mat-card-content>
+      <div *ngIf="loading" class="loading-center">
+        <mat-spinner diameter="40"></mat-spinner>
+      </div>
+
+      <table *ngIf="!loading" mat-table [dataSource]="citas" class="full-width">
+        <ng-container matColumnDef="paciente">
+          <th mat-header-cell *matHeaderCellDef>Paciente</th>
+          <td mat-cell *matCellDef="let c">{{ c.paciente }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="medico">
+          <th mat-header-cell *matHeaderCellDef>Médico</th>
+          <td mat-cell *matCellDef="let c">{{ c.medico?.nombre }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="especialidad">
+          <th mat-header-cell *matHeaderCellDef>Especialidad</th>
+          <td mat-cell *matCellDef="let c">{{ c.medico?.especialidad }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="fecha">
+          <th mat-header-cell *matHeaderCellDef>Fecha</th>
+          <td mat-cell *matCellDef="let c">{{ c.fecha }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="hora">
+          <th mat-header-cell *matHeaderCellDef>Hora</th>
+          <td mat-cell *matCellDef="let c">{{ c.hora }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="estado">
+          <th mat-header-cell *matHeaderCellDef>Estado</th>
+          <td mat-cell *matCellDef="let c">
+            <mat-chip [color]="colorEstado(c.estado)" selected>{{ c.estado }}</mat-chip>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="acciones">
+          <th mat-header-cell *matHeaderCellDef>Acciones</th>
+          <td mat-cell *matCellDef="let c">
+            <button mat-icon-button color="primary" (click)="abrirFormulario(c)" matTooltip="Editar" [disabled]="c.estado === 'Cancelada'">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button mat-icon-button (click)="cambiarEstado(c, 'Realizada')" matTooltip="Marcar Realizada" [disabled]="c.estado !== 'Confirmada'">
+              <mat-icon>check_circle</mat-icon>
+            </button>
+            <button mat-icon-button color="warn" (click)="cancelar(c)" matTooltip="Cancelar" [disabled]="c.estado === 'Cancelada'">
+              <mat-icon>cancel</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+
+      <div *ngIf="!loading && citas.length === 0" class="empty-state">
+        <mat-icon>event_busy</mat-icon>
+        <p>No se encontraron citas</p>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

@@ -1,0 +1,65 @@
+.calendario-page {
+  h1 { font-size: 28px; color: #1a237e; margin-bottom: 24px; }
+
+  .controles {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 16px;
+    mat-form-field { min-width: 220px; }
+  }
+
+  .leyenda {
+    margin-right: 16px;
+    font-size: 14px;
+    &.disponible { color: #388e3c; }
+    &.ocupado { color: #d32f2f; }
+  }
+
+  .slots-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 8px;
+    margin-top: 16px;
+  }
+
+  .slot {
+    border-radius: 8px;
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+
+    .hora {
+      font-size: 18px;
+      font-weight: 700;
+    }
+
+    .paciente {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 14px;
+      mat-icon { font-size: 16px; width: 16px; height: 16px; }
+    }
+
+    .libre { font-size: 13px; opacity: 0.7; }
+
+    &.disponible {
+      background: #e8f5e9;
+      border: 1px solid #a5d6a7;
+      .hora { color: #2e7d32; }
+    }
+
+    &.ocupado {
+      background: #ffebee;
+      border: 1px solid #ef9a9a;
+      .hora { color: #c62828; }
+    }
+  }
+
+  .loading-center {
+    display: flex;
+    justify-content: center;
+    padding: 40px;
+  }
+}

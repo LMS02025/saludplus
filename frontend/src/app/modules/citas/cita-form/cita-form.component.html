@@ -1,0 +1,48 @@
+<h2 mat-dialog-title>{{ data.cita ? 'Editar Cita' : 'Nueva Cita' }}</h2>
+
+<mat-dialog-content [formGroup]="form">
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Nombre del paciente</mat-label>
+    <input matInput formControlName="paciente" required>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Médico</mat-label>
+    <mat-select formControlName="medicoId" required>
+      <mat-option *ngFor="let m of data.medicos" [value]="m.id">
+        {{ m.nombre }} — {{ m.especialidad }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Fecha</mat-label>
+    <input matInput [matDatepicker]="picker" formControlName="fecha" required readonly>
+    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Hora</mat-label>
+    <mat-select formControlName="hora" required>
+      <mat-option *ngFor="let h of horas" [value]="h">{{ h }}</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Motivo de consulta</mat-label>
+    <textarea matInput formControlName="motivo" rows="3"></textarea>
+  </mat-form-field>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="cancelar()">Cancelar</button>
+  <button mat-raised-button color="primary" (click)="guardar()" [disabled]="form.invalid">
+    Guardar
+  </button>
+</mat-dialog-actions>
+
+<style>
+.full-width { width: 100%; margin-bottom: 8px; }
+mat-dialog-content { display: flex; flex-direction: column; min-width: 450px; }
+</style>
